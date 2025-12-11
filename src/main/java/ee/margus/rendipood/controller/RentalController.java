@@ -47,7 +47,6 @@ public class RentalController {
             rentalFilm.setLateDays(0);
             rentalFilmsList.add(rentalFilm);
             rentalFilm.setRental(rental);
-            //TODO - arvuta hind vastavalt tüübile ja võetud päevadele (initalfee)
             sum += FeeCalculator.initialFee(film.getType(), rentalFilmDTO.getDays());
         }
         filmRepository.saveAll(films);
@@ -75,14 +74,14 @@ public class RentalController {
             film.setInStock(true);
             films.add(film);
 
-            RentalFilm rentalFilm = rentalFilmRepository.findByFilm_IdAndIsReturnedFalse(dto.getFilmId());
+            RentalFilm rentalFilm = rentalFilmRepository.findByFilm_IdAndReturnedFalse(dto.getFilmId());
             int lateDays = Math.max(0, dto.getDays() - rentalFilm.getInitialDays());
             rentalFilm.setLateDays(lateDays);
             rentalFilm.setReturned(true);
             rentalFilmsList.add(rentalFilm);
 
             Rental rental = rentalRepository.findById(rentalFilm.getRental().getId()).orElseThrow();
-            sum += rental.getLateFee() + FeeCalculator.lateFee(film.getType(), rentalFilm.getInitialDays(), dto.getDays());
+            sum += rental.getLateFee() + FeeCalculator.lateFee(film.getType(), lateDays);
             rental.setLateFee(sum);
             rentals.add(rental);
         }

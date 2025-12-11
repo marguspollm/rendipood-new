@@ -7,5 +7,5 @@ public interface RentalFilmRepository extends JpaRepository<RentalFilm, Long> {
 
     RentalFilm findByFilm_Id(Long id);
 
-    RentalFilm findByFilm_IdAndIsReturnedFalse(Long id);
+    RentalFilm findByFilm_IdAndReturnedFalse(Long id);
 }

@@ -1,5 +1,6 @@
 package ee.margus.rendipood.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -20,8 +21,9 @@ public class RentalFilm {
     private Film film;
     private int initialDays;
     private int lateDays;
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "rental_id")
     private Rental rental;
-    private boolean isReturned;
+    private boolean returned;
 }

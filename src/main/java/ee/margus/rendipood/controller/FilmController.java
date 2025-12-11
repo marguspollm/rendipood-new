@@ -15,8 +15,8 @@ public class FilmController {
 
     @GetMapping("films")
     public List<Film> filmsInStore(@RequestParam(required = false) Boolean inStock){
-        if(inStock == null) return filmRepository.findAll();
-        return filmRepository.findByInStock(inStock);
+        if(inStock == null) return filmRepository.findAllByOrderByIdAsc();
+        return filmRepository.findByInStockOrderByIdAsc(inStock);
     }
 
     @PostMapping("films")
@@ -24,13 +24,25 @@ public class FilmController {
         if(film.getId() != null) throw new RuntimeException("Can't add a film with an existing id!");
         film.setInStock(true);
         filmRepository.save(film);
-        return filmRepository.findAll();
+        return filmRepository.findAllByOrderByIdAsc();
+    }
+
+    @PostMapping("films-multi")
+    public List<Film> addFilms(@RequestBody List<Film> films) {
+        for (Film f : films) {
+            if (f.getId() != null) {
+                throw new RuntimeException("Can't add a film without an id");
+            }
+            f.setInStock(true);
+            filmRepository.save(f);
+        }
+        return filmRepository.findAllByOrderByIdAsc();
     }
 
     @DeleteMapping("films/{id}")
     public List<Film> deleteFilm(@PathVariable Long id){
         filmRepository.deleteById(id);
-        return filmRepository.findAll();
+        return filmRepository.findAllByOrderByIdAsc();
     }
 
     @PatchMapping("films-type")
@@ -39,7 +51,7 @@ public class FilmController {
                 .orElseThrow(() -> new RuntimeException("Film with id"+ id +" not found"));
         film.setType(type);
         filmRepository.save(film);
-        return filmRepository.findAll();
+        return filmRepository.findAllByOrderByIdAsc();
     }
 
 }
