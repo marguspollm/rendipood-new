@@ -63,10 +63,6 @@ class FilmServiceTest {
     }
 
     @Test
-    void addFilm() {
-    }
-
-    @Test
     void givenFilmWithId_whenAddFilm_thenThrowException(){
         Film film = new Film(1L, "Matrix", "", NEW, false);
 
@@ -84,10 +80,6 @@ class FilmServiceTest {
 
         assertEquals(films, filmService.addFilm(film));
         assertTrue(film.getInStock());
-    }
-
-    @Test
-    void addFilms() {
     }
 
     @Test
@@ -114,10 +106,6 @@ class FilmServiceTest {
     }
 
     @Test
-    void deleteFilm() {
-    }
-
-    @Test
     void givenFilmId_whenDeleteFilm_thenDeleteFilmAndReturnAllFilms(){
         List<Film> films = new ArrayList<>();
         Film film = new Film(1L, "Matrix", "", NEW, true);
@@ -126,10 +114,6 @@ class FilmServiceTest {
         when(filmRepository.findAllByOrderByIdAsc()).thenReturn(films);
 
         assertEquals(films, filmService.deleteFilm(1L));
-    }
-
-    @Test
-    void updateFilm() {
     }
 
     @Test
