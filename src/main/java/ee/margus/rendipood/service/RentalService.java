@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class RentalService {
@@ -34,7 +36,7 @@ public class RentalService {
         List<RentalFilm> rentalFilmsList = new ArrayList<>();
 
         for(RentalFilmDTO rentalFilmDTO: rentalFilms){
-            Film film = filmRepository.findById(rentalFilmDTO.getFilmId()).orElseThrow();
+            Film film = filmRepository.findById(rentalFilmDTO.getFilmId()).orElseThrow(() -> new RuntimeException("Film is not in database!"));
             if(!film.getInStock()){
                 throw new RuntimeException("Film is out of stock!");
             }
@@ -76,30 +78,40 @@ public class RentalService {
 
         List<Film> films = new ArrayList<>();
         List<RentalFilm> rentalFilmsList = new ArrayList<>();
-        List<Rental> rentals = new ArrayList<>();
+        Map<Long, Rental> rentals = new HashMap<>();
+        Map<Long, Double> lateFees = new HashMap<>();
 
         for (RentalFilmDTO dto: rentalFilmDTO){
-            Film film = filmRepository.findById(dto.getFilmId()).orElseThrow();
+            Film film = filmRepository.findById(dto.getFilmId())
+                    .orElseThrow(() -> new RuntimeException("Film is not in database!"));
             film.setInStock(true);
             films.add(film);
 
             RentalFilm rentalFilm = getRentalFilm(dto);
             rentalFilmsList.add(rentalFilm);
 
-            Rental rental = rentalRepository.findById(rentalFilm.getRental().getId()).orElseThrow();
-            sum += rental.getLateFee() + FeeCalculator.lateFee(film.getType(), rentalFilm.getLateDays());
-            rental.setLateFee(sum);
-            rentals.add(rental);
+            Rental rental = rentalRepository.findById(rentalFilm.getRental().getId())
+                    .orElseThrow(() -> new RuntimeException("Rental doesn't exist!"));
+
+            sum += FeeCalculator.lateFee(film.getType(), rentalFilm.getLateDays());
+            lateFees.merge(rental.getId(), sum, Double::sum);
+            rentals.put(rental.getId(), rental);
+        }
+
+        for (Rental rental : rentals.values()){
+            Double totalFee = rental.getLateFee() + lateFees.get(rental.getId());
+            rental.setLateFee(totalFee);
         }
 
         filmRepository.saveAll(films);
-        rentalRepository.saveAll(rentals);
+        rentalRepository.saveAll(rentals.values());
         rentalFilmRepository.saveAll(rentalFilmsList);
         return sum;
     }
 
     private RentalFilm getRentalFilm(RentalFilmDTO dto) {
-        RentalFilm rentalFilm = rentalFilmRepository.findByFilm_IdAndReturnedFalse(dto.getFilmId());
+        RentalFilm rentalFilm = rentalFilmRepository.findByFilm_IdAndReturnedFalse(dto.getFilmId())
+                .orElseThrow(() -> new RuntimeException("Film rental doesn't exist!"));
         int lateDays = Math.max(0, dto.getDays() - rentalFilm.getInitialDays());
         rentalFilm.setLateDays(lateDays);
         rentalFilm.setReturned(true);
