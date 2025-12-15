@@ -7,6 +7,7 @@ public class FeeCalculator {
     private static final int PREMIUM_PRICE = 4;
 
     public static double initialFee(FilmType filmType, int days){
+        if(days == 0) throw new RuntimeException("Days cannot be zero!");
         return switch(filmType){
             case NEW -> PREMIUM_PRICE * days;
             case REGULAR -> BASIC_PRICE + BASIC_PRICE * Math.max(0, days - 3);
