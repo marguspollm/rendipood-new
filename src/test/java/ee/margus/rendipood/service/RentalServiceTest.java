@@ -80,7 +80,7 @@ class RentalServiceTest {
     }
 
     @Test
-    void givenWhenFilmIsOldAndRentedForFiveDays_whenRentalIsStarted_thenInitialFeeIs3(){
+    void givenWhenFilmIsOldAndRentedForFiveDays_whenRentalIsStarted_thenInitialFeeIsThree(){
         Film film = new Film(1L, "Matrix","", OLD, true);
         mockSaveFilmToDb(film);
 
@@ -103,7 +103,7 @@ class RentalServiceTest {
     }
 
     @Test
-    void givenArrayOfTwoNewFilmsAndRentedForTwoDays_whenRentalIsStarted_thenInitialFeeIs(){
+    void givenArrayOfTwoNewFilmsAndRentedForTwoDays_whenRentalIsStarted_thenInitialFeeIs16(){
         Film film1 = new Film(1L, "Matrix","", NEW, true);
         Film film2 = new Film(2L, "Matrix 2","", NEW, true);
         mockSaveFilmToDb(film1);
