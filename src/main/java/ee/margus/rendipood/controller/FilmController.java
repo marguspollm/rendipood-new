@@ -14,12 +14,12 @@ public class FilmController {
     private FilmService filmService;
 
     @GetMapping("films")
-    public List<Film> filmsInStore(@RequestParam(required = false) Boolean inStock){
+    public List<Film> filmsInStore(@RequestParam(required = false) Boolean inStock) {
         return filmService.filmsInStore(inStock);
     }
 
     @PostMapping("films")
-    public List<Film> addFilm(@RequestBody Film film){
+    public List<Film> addFilm(@RequestBody Film film) {
         return filmService.addFilm(film);
     }
 
@@ -29,12 +29,12 @@ public class FilmController {
     }
 
     @DeleteMapping("films/{id}")
-    public List<Film> deleteFilm(@PathVariable Long id){
+    public List<Film> deleteFilm(@PathVariable Long id) {
         return filmService.deleteFilm(id);
     }
 
     @PatchMapping("films-type")
-    public List<Film> updateFilm(@RequestParam Long id, @RequestParam FilmType type){
+    public List<Film> updateFilm(@RequestParam Long id, @RequestParam FilmType type) {
         return filmService.updateFilm(id, type);
     }
 

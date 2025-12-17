@@ -27,7 +27,7 @@ public class RentalService {
     @Autowired
     private RentalFilmRepository rentalFilmRepository;
 
-    public double startRental(List<RentalFilmDTO> rentalFilms){
+    public double startRental(List<RentalFilmDTO> rentalFilms) {
         double sum = 0;
 
         Rental rental = new Rental();
@@ -35,9 +35,9 @@ public class RentalService {
         List<Film> films = new ArrayList<>();
         List<RentalFilm> rentalFilmsList = new ArrayList<>();
 
-        for(RentalFilmDTO rentalFilmDTO: rentalFilms){
+        for (RentalFilmDTO rentalFilmDTO : rentalFilms) {
             Film film = filmRepository.findById(rentalFilmDTO.getFilmId()).orElseThrow(() -> new RuntimeException("Film is not in database!"));
-            if(!film.getInStock()){
+            if (!film.getInStock()) {
                 throw new RuntimeException("Film is out of stock!");
             }
             film.setInStock(false);
@@ -81,7 +81,7 @@ public class RentalService {
         Map<Long, Rental> rentalsToUpdate = new HashMap<>();
         Map<Long, Double> rentalLateFees = new HashMap<>();
 
-        for (RentalFilmDTO dto: rentalFilmDTO){
+        for (RentalFilmDTO dto : rentalFilmDTO) {
             Film film = filmRepository.findById(dto.getFilmId())
                     .orElseThrow(() -> new RuntimeException("Film is not in database!"));
             film.setInStock(true);
@@ -98,7 +98,7 @@ public class RentalService {
             rentalsToUpdate.put(rental.getId(), rental);
         }
 
-        for (Rental rental : rentalsToUpdate.values()){
+        for (Rental rental : rentalsToUpdate.values()) {
             double totalFee = rental.getLateFee() + rentalLateFees.get(rental.getId());
             rental.setLateFee(totalFee);
         }

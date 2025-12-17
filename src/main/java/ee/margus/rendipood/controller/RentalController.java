@@ -15,12 +15,12 @@ public class RentalController {
     private RentalService rentalService;
 
     @PostMapping("start-rental")
-    public double startRental(@RequestBody List<RentalFilmDTO> rentalFilms){
+    public double startRental(@RequestBody List<RentalFilmDTO> rentalFilms) {
         return rentalService.startRental(rentalFilms);
     }
 
     @PostMapping("end-rental")
-    public double endRental(@RequestBody List<RentalFilmDTO> rentalFilmDTO){
+    public double endRental(@RequestBody List<RentalFilmDTO> rentalFilmDTO) {
         return rentalService.endRental(rentalFilmDTO);
     }
 
