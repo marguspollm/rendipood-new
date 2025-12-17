@@ -5,9 +5,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface FilmRepository extends JpaRepository<Film,Long> {
+public interface FilmRepository extends JpaRepository<Film, Long> {
     //List<Film> findByInStock(boolean inStock);
 
     List<Film> findByInStockOrderByIdAsc(Boolean inStock);
+
     List<Film> findAllByOrderByIdAsc();
 }
