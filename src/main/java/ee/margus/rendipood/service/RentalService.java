@@ -76,36 +76,36 @@ public class RentalService {
     public double endRental(List<RentalFilmDTO> rentalFilmDTO) {
         double sum = 0;
 
-        List<Film> films = new ArrayList<>();
-        List<RentalFilm> rentalFilmsList = new ArrayList<>();
-        Map<Long, Rental> rentals = new HashMap<>();
-        Map<Long, Double> lateFees = new HashMap<>();
+        List<Film> filmsToUpdate = new ArrayList<>();
+        List<RentalFilm> rentalFilmsToUpdate = new ArrayList<>();
+        Map<Long, Rental> rentalsToUpdate = new HashMap<>();
+        Map<Long, Double> rentalLateFees = new HashMap<>();
 
         for (RentalFilmDTO dto: rentalFilmDTO){
             Film film = filmRepository.findById(dto.getFilmId())
                     .orElseThrow(() -> new RuntimeException("Film is not in database!"));
             film.setInStock(true);
-            films.add(film);
+            filmsToUpdate.add(film);
 
             RentalFilm rentalFilm = getRentalFilm(dto);
-            rentalFilmsList.add(rentalFilm);
+            rentalFilmsToUpdate.add(rentalFilm);
 
             Rental rental = rentalRepository.findById(rentalFilm.getRental().getId())
                     .orElseThrow(() -> new RuntimeException("Rental doesn't exist!"));
 
             sum += FeeCalculator.lateFee(film.getType(), rentalFilm.getLateDays());
-            lateFees.merge(rental.getId(), sum, Double::sum);
-            rentals.put(rental.getId(), rental);
+            rentalLateFees.merge(rental.getId(), sum, Double::sum);
+            rentalsToUpdate.put(rental.getId(), rental);
         }
 
-        for (Rental rental : rentals.values()){
-            Double totalFee = rental.getLateFee() + lateFees.get(rental.getId());
+        for (Rental rental : rentalsToUpdate.values()){
+            double totalFee = rental.getLateFee() + rentalLateFees.get(rental.getId());
             rental.setLateFee(totalFee);
         }
 
-        filmRepository.saveAll(films);
-        rentalRepository.saveAll(rentals.values());
-        rentalFilmRepository.saveAll(rentalFilmsList);
+        filmRepository.saveAll(filmsToUpdate);
+        rentalRepository.saveAll(rentalsToUpdate.values());
+        rentalFilmRepository.saveAll(rentalFilmsToUpdate);
         return sum;
     }
 
