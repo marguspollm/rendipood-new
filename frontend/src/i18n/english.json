@@ -1,0 +1,8 @@
+{
+  "header": {
+    "products": "Products",
+    "persons": "Persons",
+    "orders": "Orders",
+    "category": "Categories"
+  }
+}
