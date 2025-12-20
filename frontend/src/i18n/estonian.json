@@ -1,8 +1,47 @@
 {
   "header": {
-    "products": "Tooted",
-    "persons": "Isikud",
-    "orders": "Tellimused",
-    "category": "Kategooriad"
+    "films": "Filmid",
+    "cart": "Ostukorv",
+    "rentals": "Laenutused",
+    "returnals": "Tagastus"
+  },
+  "cart": {
+    "title": "Ostukorv",
+    "days": "Päevad"
+  },
+  "rental": {
+    "id": "ID",
+    "initialFee": "Algne tasu",
+    "lateFee": "Hilinenud tasu",
+    "lateDays": "Hilinenud päevad",
+    "initialDays": "Laenutatud päevad",
+    "returned": "Tagastatud",
+    "filmName": "Filmi nimi"
+  },
+  "returnal": {
+    "title": "Tagasta filmid",
+    "daysRented": "Renditud päevad",
+    "filmTitle": "Filmi nimi"
+  },
+  "button": {
+    "remove": "Eemalda",
+    "order": "Telli",
+    "addToCart": "Lisa korvi",
+    "return": "Tagasta"
+  },
+  "alert": {
+    "films": {
+      "added": "lisatud korvi!",
+      "alreadyAdded": "Film on juba korvis!"
+    },
+    "cart": {
+      "ordered": "Tellitud",
+      "removed": "Eemaldatud korvist!",
+      "emptyCart": "Korv on tühi"
+    },
+    "returnal": {
+      "returned": "Film on tagastatud!",
+      "error": "Midagi läks valesti :("
+    }
   }
 }

@@ -41,7 +41,7 @@ class RentalServiceTest {
     private RentalService rentalService;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
 
 //        mockSaveFilmToDb(2L, "Matrix 2", true, NEW);
 //        mockSaveFilmToDb(3L, "Matrix 3", true, REGULAR);
@@ -67,8 +67,8 @@ class RentalServiceTest {
 
     //start-rental
     @Test
-    void givenWhenFilmIsNotInStock_whenRentalIsStarted_thenThrowException(){
-        Film film = new Film(1L, "Matrix","", NEW, false);
+    void givenWhenFilmIsNotInStock_whenRentalIsStarted_thenThrowException() {
+        Film film = new Film(1L, "Matrix", "", NEW, false);
         mockSaveFilmToDb(film);
 
         RentalFilmDTO rentalFilmDTO = getRentalFilmDTO(1L, 1);
@@ -80,8 +80,8 @@ class RentalServiceTest {
     }
 
     @Test
-    void givenWhenFilmIsOldAndRentedForFiveDays_whenRentalIsStarted_thenInitialFeeIsThree(){
-        Film film = new Film(1L, "Matrix","", OLD, true);
+    void givenWhenFilmIsOldAndRentedForFiveDays_whenRentalIsStarted_thenInitialFeeIsThree() {
+        Film film = new Film(1L, "Matrix", "", OLD, true);
         mockSaveFilmToDb(film);
 
         RentalFilmDTO rentalFilmDTO = getRentalFilmDTO(1L, 5);
@@ -93,7 +93,7 @@ class RentalServiceTest {
     }
 
     @Test
-    void givenWhenFilmIsNotInDb_whenRentalIsStarted_thenThrowException(){
+    void givenWhenFilmIsNotInDb_whenRentalIsStarted_thenThrowException() {
         RentalFilmDTO rentalFilmDTO = getRentalFilmDTO(1L, 1);
         List<RentalFilmDTO> rentalFilmDTOList = new ArrayList<>();
         rentalFilmDTOList.add(rentalFilmDTO);
@@ -103,14 +103,14 @@ class RentalServiceTest {
     }
 
     @Test
-    void givenArrayOfTwoNewFilmsAndRentedForTwoDays_whenRentalIsStarted_thenInitialFeeIs16(){
-        Film film1 = new Film(1L, "Matrix","", NEW, true);
-        Film film2 = new Film(2L, "Matrix 2","", NEW, true);
+    void givenArrayOfTwoNewFilmsAndRentedForTwoDays_whenRentalIsStarted_thenInitialFeeIs16() {
+        Film film1 = new Film(1L, "Matrix", "", NEW, true);
+        Film film2 = new Film(2L, "Matrix 2", "", NEW, true);
         mockSaveFilmToDb(film1);
         mockSaveFilmToDb(film2);
 
         List<RentalFilmDTO> rentalFilmDTOList = new ArrayList<>();
-        for(int i = 1; i <= 2; i++){
+        for (int i = 1; i <= 2; i++) {
             RentalFilmDTO rentalFilmDTO = getRentalFilmDTO((long) i, 2);
             rentalFilmDTOList.add(rentalFilmDTO);
         }
@@ -121,7 +121,7 @@ class RentalServiceTest {
 
     //end-rental
     @Test
-    void givenWhenFilmIsNotInDb_whenRentalIsEnded_thenThrowException(){
+    void givenWhenFilmIsNotInDb_whenRentalIsEnded_thenThrowException() {
         RentalFilmDTO rentalFilmDTO = getRentalFilmDTO(1L, 1);
         List<RentalFilmDTO> rentalFilmDTOList = new ArrayList<>();
         rentalFilmDTOList.add(rentalFilmDTO);
@@ -131,8 +131,8 @@ class RentalServiceTest {
     }
 
     @Test
-    void givenWhenRentalIsNotInDb_whenRentalIsEnded_thenThrowException(){
-        Film film = new Film(1L, "Matrix","", OLD, false);
+    void givenWhenRentalIsNotInDb_whenRentalIsEnded_thenThrowException() {
+        Film film = new Film(1L, "Matrix", "", OLD, false);
         mockSaveFilmToDb(film);
 
         RentalFilmDTO rentalFilmDTO = getRentalFilmDTO(1L, 1);
@@ -144,7 +144,7 @@ class RentalServiceTest {
     }
 
     @Test
-    void givenWhenFilmIsOldAndRentedForTwoDaysAndReturnedOnTime_whenRentalIsEnded_thenLateFeeIsZero(){
+    void givenWhenFilmIsOldAndRentedForTwoDaysAndReturnedOnTime_whenRentalIsEnded_thenLateFeeIsZero() {
         Film film = new Film(1L, "Spiderman", "", NEW, false);
         mockSaveFilmToDb(film);
         Rental rental = new Rental();
@@ -166,7 +166,7 @@ class RentalServiceTest {
     }
 
     @Test
-    void givenWhenFilmIsOldAndRentedForTwoDaysAndReturnedOneDayLate_whenRentalIsEnded_thenLateFeeIsThree(){
+    void givenWhenFilmIsOldAndRentedForTwoDaysAndReturnedOneDayLate_whenRentalIsEnded_thenLateFeeIsThree() {
         Film film = new Film(1L, "Spiderman", "", OLD, false);
         mockSaveFilmToDb(film);
         Rental rental = new Rental();
@@ -188,7 +188,7 @@ class RentalServiceTest {
     }
 
     @Test
-    void givenWhenTwoFilmsAreNewAndRentedForTwoDaysAndReturnedOneDayLate_whenRentalIsEnded_thenLateFeeIsEight(){
+    void givenWhenTwoFilmsAreNewAndRentedForTwoDaysAndReturnedOneDayLate_whenRentalIsEnded_thenLateFeeIsEight() {
         Film film1 = new Film(1L, "Spiderman", "", NEW, false);
         Film film2 = new Film(2L, "Spiderman", "", NEW, false);
         mockSaveFilmToDb(film1);
@@ -206,12 +206,23 @@ class RentalServiceTest {
         when(rentalFilmRepository.findByFilm_IdAndReturnedFalse(2L)).thenReturn(Optional.of(rentalFilm2));
 
         List<RentalFilmDTO> rentalFilmDTOList = new ArrayList<>();
-        for(int i = 1; i <= 2; i++){
+        for (int i = 1; i <= 2; i++) {
             RentalFilmDTO rentalFilmDTO = getRentalFilmDTO((long) i, 3);
             rentalFilmDTOList.add(rentalFilmDTO);
         }
 
         double sum = rentalService.endRental(rentalFilmDTOList);
         assertEquals(8, sum);
+    }
+
+    @Test
+    void whenRentals_returnAllRentals() {
+        List<Rental> rentals = new ArrayList<>();
+        Rental rental = new Rental(1L, 1, 0, List.of(new RentalFilm()));
+        rentals.add(rental);
+
+        when(rentalRepository.findAll()).thenReturn(rentals);
+
+        assertEquals(rentals, rentalService.getRentals());
     }
 }

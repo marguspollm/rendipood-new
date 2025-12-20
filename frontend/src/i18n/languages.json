@@ -1,0 +1,12 @@
+{
+  "en": {
+    "code": "en",
+    "label": "English",
+    "shortLabel": "EN"
+  },
+  "et": {
+    "code": "et",
+    "label": "Eesti",
+    "shortLabel": "ET"
+  }
+}

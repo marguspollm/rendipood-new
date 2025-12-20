@@ -20,7 +20,6 @@ public class Rental {
     private Long id;
     private double initialFee;
     private double lateFee;
-    @JsonIgnore
     @OneToMany(mappedBy = "rental", cascade = CascadeType.ALL)
     private List<RentalFilm> rentalFilms;
 }

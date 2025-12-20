@@ -117,4 +117,8 @@ public class RentalService {
         rentalFilm.setReturned(true);
         return rentalFilm;
     }
+
+    public List<Rental> getRentals() {
+        return rentalRepository.findAll();
+    }
 }

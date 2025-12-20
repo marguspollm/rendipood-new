@@ -1,8 +1,47 @@
 {
   "header": {
-    "products": "Products",
-    "persons": "Persons",
-    "orders": "Orders",
-    "category": "Categories"
+    "films": "Films",
+    "cart": "Cart",
+    "rentals": "My Rentals",
+    "returnals": "Return film"
+  },
+  "cart": {
+    "title": "Your cart",
+    "days": "Days"
+  },
+  "rental": {
+    "id": "ID",
+    "initialFee": "Initial fee",
+    "lateFee": "Late fee",
+    "lateDays": "Late days",
+    "initialDays": "Initial days",
+    "returned": "Returned",
+    "filmName": "Film name"
+  },
+  "returnal": {
+    "title": "Return Films",
+    "daysRented": "Rented days",
+    "filmTitle": "Film title"
+  },
+  "button": {
+    "remove": "Remove",
+    "order": "Order",
+    "addToCart": "Add to cart",
+    "return": "Return"
+  },
+  "alert": {
+    "films": {
+      "added": "added to cart!",
+      "alreadyAdded": "Film is already in cart!"
+    },
+    "cart": {
+      "ordered": "Ordered",
+      "removed": "Removed from cart!",
+      "emptyCart": "Cart is empty!"
+    },
+    "returnal": {
+      "returned": "Film is returned!",
+      "error": "Something went wrong :("
+    }
   }
 }

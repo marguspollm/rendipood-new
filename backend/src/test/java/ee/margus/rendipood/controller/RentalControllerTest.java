@@ -1,7 +1,6 @@
 package ee.margus.rendipood.controller;
 
 import ee.margus.rendipood.dto.RentalFilmDTO;
-import ee.margus.rendipood.entity.Film;
 import ee.margus.rendipood.service.RentalService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +13,7 @@ import tools.jackson.databind.ObjectMapper;
 
 import java.util.List;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -26,6 +26,13 @@ class RentalControllerTest {
 
     @MockitoBean
     private RentalService rentalService;
+
+    @Test
+    void getRentals() throws Exception {
+        mockMvc.perform(get("/rentals"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+    }
 
     @Test
     void startRental() throws Exception {
