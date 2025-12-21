@@ -29,7 +29,8 @@
     "addToCart": "Add to cart",
     "return": "Return"
   },
-  "alert": {
+  "toast": {
+    "error": "Something went wrong :(",
     "films": {
       "added": "added to cart!",
       "alreadyAdded": "Film is already in cart!"
@@ -40,8 +41,7 @@
       "emptyCart": "Cart is empty!"
     },
     "returnal": {
-      "returned": "Film is returned!",
-      "error": "Something went wrong :("
+      "returned": "Film is returned!"
     }
   }
 }

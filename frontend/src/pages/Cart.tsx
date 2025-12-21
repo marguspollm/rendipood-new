@@ -3,17 +3,17 @@ import { useEffect, useState } from "react";
 import { apiFetch } from "../services/api";
 import { ToastContainer, toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
-import type { RentalFilmDTO } from "../models/RentalFilmDTO";
+import type { RentalFilmWithDays } from "../models/RentalFilmDTO";
 
 function Cart() {
   const { t } = useTranslation();
-  const [cartItems, setCartItems] = useState<RentalFilmDTO[]>([]);
+  const [cartItems, setCartItems] = useState<RentalFilmWithDays[]>([]);
 
   const removeFromCart = (id: number) => {
     const updated = cartItems.filter((item) => item.id !== id);
     setCartItems(updated);
     localStorage.setItem("cart", JSON.stringify(updated));
-    toast.warn(`${t("alert.cart.removed")}`);
+    toast.warn(`${t("toast.cart.removed")}`);
   };
 
   const setFilmDays = (days: number, id: number) => {
@@ -27,26 +27,34 @@ function Cart() {
     }));
 
     if (payload.length == 0) {
-      toast.error(`${t("alert.cart.emptyCart")}`);
+      toast.error(`${t("toast.cart.emptyCart")}`);
       return;
     }
 
     await apiFetch("/start-rental", {
       method: "POST",
       body: payload,
-    }).then(() => {
-      toast.success(`${t("alert.cart.ordered")}`);
-      setCartItems([]);
-      localStorage.removeItem("cart");
-    });
+    })
+      .then((res) => {
+        toast.success(`${t("toast.cart.ordered")} - ${res}€`);
+        setCartItems([]);
+        localStorage.removeItem("cart");
+      })
+      .catch(() => {
+        toast.error(`${t("toast.error")}`);
+      });
   };
 
-  useEffect(() => {
-    const storedFilms: RentalFilmDTO[] = JSON.parse(
+  const setCartFromLocal = () => {
+    const storedFilms: RentalFilmWithDays[] = JSON.parse(
       localStorage.getItem("cart") ?? "[]"
     );
 
     setCartItems(storedFilms);
+  };
+
+  useEffect(() => {
+    setCartFromLocal();
   }, []);
 
   return (

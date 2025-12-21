@@ -8,22 +8,22 @@ import {
   TableBody,
   Checkbox,
 } from "@mui/material";
-import React from "react";
+import { useState } from "react";
 import type { Rental } from "../../models/Rental";
 import type { RentalFilm } from "../../models/RentalFilm";
 import { useTranslation } from "react-i18next";
 
 function RentalRow({ row }: { row: Rental }) {
   const { t } = useTranslation();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   return (
     <>
       <TableRow onClick={() => setOpen(!open)}>
         <TableCell></TableCell>
         <TableCell>{row.id}</TableCell>
-        <TableCell>{row.initialFee}</TableCell>
-        <TableCell>{row.lateFee}</TableCell>
+        <TableCell>{row.initialFee} €</TableCell>
+        <TableCell>{row.lateFee} €</TableCell>
       </TableRow>
 
       <TableRow>

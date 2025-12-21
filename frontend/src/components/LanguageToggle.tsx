@@ -38,7 +38,6 @@ function LanguageToggle() {
 
   return (
     <>
-      {" "}
       <Button onClick={handleOpenLanguageMenu} sx={{ p: 0 }}>
         <Typography sx={{ textAlign: "center", color: "#00000" }}>
           {languageLabel}
@@ -70,24 +69,6 @@ function LanguageToggle() {
             <Typography sx={{ textAlign: "center" }}>{lng.label}</Typography>
           </MenuItem>
         ))}
-        {/* <MenuItem
-          key={"et"}
-          onClick={() => {
-            handleCloseLanguageMenu();
-            updateLanguage("et");
-          }}
-        >
-          <Typography sx={{ textAlign: "center" }}>Eesti</Typography>
-        </MenuItem>
-        <MenuItem
-          key={"en"}
-          onClick={() => {
-            handleCloseLanguageMenu();
-            updateLanguage("en");
-          }}
-        >
-          <Typography sx={{ textAlign: "center" }}>English</Typography>
-        </MenuItem> */}
       </Menu>
     </>
   );

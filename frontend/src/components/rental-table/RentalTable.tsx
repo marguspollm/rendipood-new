@@ -8,18 +8,11 @@ import {
   TableBody,
 } from "@mui/material";
 import type { Rental } from "../../models/Rental";
-import { useEffect, useState } from "react";
 import RentalRow from "./RentalRow";
-import { apiFetch } from "../../services/api";
 import { useTranslation } from "react-i18next";
 
-function RentalTable() {
+function RentalTable({ rentals }: { rentals: Rental[] }) {
   const { t } = useTranslation();
-  const [rentals, setRentals] = useState<Rental[]>([]);
-
-  useEffect(() => {
-    apiFetch<Rental[]>("/rentals").then((res) => setRentals(res));
-  }, []);
 
   return (
     <TableContainer component={Paper}>

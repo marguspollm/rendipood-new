@@ -29,7 +29,8 @@
     "addToCart": "Lisa korvi",
     "return": "Tagasta"
   },
-  "alert": {
+  "toast": {
+    "error": "Midagi läks valesti :(",
     "films": {
       "added": "lisatud korvi!",
       "alreadyAdded": "Film on juba korvis!"
@@ -40,8 +41,7 @@
       "emptyCart": "Korv on tühi"
     },
     "returnal": {
-      "returned": "Film on tagastatud!",
-      "error": "Midagi läks valesti :("
+      "returned": "Film on tagastatud!"
     }
   }
 }

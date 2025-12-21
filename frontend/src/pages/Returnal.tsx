@@ -33,16 +33,24 @@ function Returnal() {
         days: days,
       },
     ];
+
     apiFetch("/end-rental", {
       method: "POST",
       body: payload,
     })
-      .then(() => toast.success(`${t("alert.returnal.returned")}`))
-      .catch(() => toast.error(`${t("alert.returnal.error")}`));
+      .then((res) => {
+        toast.success(`${t("toast.returnal.returned")} - ${res}€`);
+        setSelectedFilm("");
+        setDays(1);
+        getRentedFilms();
+      })
+      .catch(() => toast.error(`${t("toast.error")}`));
   };
 
   const getRentedFilms = () => {
-    apiFetch<RentalFilm[]>("/rented-films").then((res) => setRentedFilms(res));
+    apiFetch<RentalFilm[]>("/rented-films")
+      .then((res) => setRentedFilms(res))
+      .catch(() => toast.error(t("toast.error")));
   };
 
   useEffect(() => {

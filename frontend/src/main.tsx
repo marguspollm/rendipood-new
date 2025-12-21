@@ -16,3 +16,12 @@ createRoot(document.getElementById("root")!).render(
     </ThemeProvider>
   </StrictMode>
 );
+
+//Rendipood -
+// erinevad lehed (routimine)
+// tõlge
+// darkmode/lightmode - localstorage
+// font kasutusele  (google fonts)
+// mui, tailwind, bootstrap ( igale projektile erinev)
+// react toastify
+// react hot toast (nt toote lisamine, kustutamine, vea teaded)

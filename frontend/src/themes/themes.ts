@@ -8,6 +8,10 @@ export const theme = createTheme({
     fontWeightRegular: 400,
     fontWeightMedium: 500,
   },
+  colorSchemes: { light: true, dark: true },
+  cssVariables: {
+    colorSchemeSelector: "class",
+  },
 });
 
 // export const darkTheme = createTheme({
