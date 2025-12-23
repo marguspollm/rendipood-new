@@ -18,16 +18,17 @@ function Films() {
   const [films, setFilms] = useState<Film[]>([]);
 
   const addToCart = (film: Film) => {
-    const selectedFilms: Film[] = JSON.parse(
-      localStorage.getItem("cart") ?? "[]"
+    const selectedFilms: FilmWithDays[] = JSON.parse(
+      localStorage.getItem("cart") || "[]"
     );
-    const existsFilm = selectedFilms.some((i) => i.id === film.id);
+    const existsFilm = selectedFilms.find((sf) => sf.film.id === film.id);
+
     if (!existsFilm) {
-      const filmWithDays = { ...film, days: 1 };
-      selectedFilms.push(filmWithDays);
+      selectedFilms.push({ film: film, days: 1 });
       localStorage.setItem("cart", JSON.stringify(selectedFilms));
       toast.success(`${film.title} - ${t("toast.films.added")}`);
     } else {
+      existsFilm.days++;
       toast.warn(`${t("toast.films.alreadyAdded")}`);
     }
   };
@@ -85,5 +86,6 @@ function Films() {
   );
 }
 import { useTranslation } from "react-i18next";
+import type { FilmWithDays } from "../models/FilmWithDays";
 
 export default Films;

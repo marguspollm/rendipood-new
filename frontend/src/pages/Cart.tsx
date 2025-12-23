@@ -3,27 +3,29 @@ import { useEffect, useState } from "react";
 import { apiFetch } from "../services/api";
 import { ToastContainer, toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
-import type { RentalFilmWithDays } from "../models/RentalFilmDTO";
+import type { FilmWithDays } from "../models/FilmWithDays";
 
 function Cart() {
   const { t } = useTranslation();
-  const [cartItems, setCartItems] = useState<RentalFilmWithDays[]>([]);
+  const [cartItems, setCartItems] = useState<FilmWithDays[]>([]);
 
-  const removeFromCart = (id: number) => {
-    const updated = cartItems.filter((item) => item.id !== id);
-    setCartItems(updated);
-    localStorage.setItem("cart", JSON.stringify(updated));
+  const removeFromCart = (index: number) => {
+    const updatedCart = [...cartItems];
+    updatedCart.splice(index, 1); //esimene number on mitmendat kusutada, 2 number on alates mitmendast
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
     toast.warn(`${t("toast.cart.removed")}`);
   };
 
   const setFilmDays = (days: number, id: number) => {
-    setCartItems((prev) => prev.map((f) => (f.id === id ? { ...f, days } : f)));
+    setCartItems((prev) =>
+      prev.map((f) => (f.film.id === id ? { ...f, days } : f))
+    );
   };
 
   const orderFilms = async () => {
-    const payload = cartItems.map((film) => ({
-      filmId: film.id,
-      days: film.days,
+    const payload = cartItems.map((item) => ({
+      filmId: item.film.id,
+      days: item.days,
     }));
 
     if (payload.length == 0) {
@@ -46,7 +48,7 @@ function Cart() {
   };
 
   const setCartFromLocal = () => {
-    const storedFilms: RentalFilmWithDays[] = JSON.parse(
+    const storedFilms: FilmWithDays[] = JSON.parse(
       localStorage.getItem("cart") ?? "[]"
     );
 
@@ -70,10 +72,10 @@ function Cart() {
         <Typography variant="h4" color="secondary" sx={{ mb: 3 }}>
           {t("cart.title")}
         </Typography>
-        {cartItems.map((item) => {
+        {cartItems.map((item, index) => {
           return (
             <Box
-              key={item.id}
+              key={item.film.id}
               sx={{
                 p: 2,
                 mb: 2,
@@ -88,18 +90,18 @@ function Cart() {
             >
               <Box sx={{ flexGrow: 1 }}>
                 <Typography variant="body1" color="secondary">
-                  {item.title} ... HIND?
+                  {item.film.title} ... HIND?
                 </Typography>
                 <TextField
                   type="number"
                   label={t("cart.days")}
                   value={item.days}
-                  onChange={(e) => setFilmDays(Number(e.target.value), item.id)}
+                  onChange={(e) => setFilmDays(Number(e.target.value), index)}
                   sx={{ width: 100, mt: 1 }}
                 />
               </Box>
               <Button
-                onClick={() => removeFromCart(item.id)}
+                onClick={() => removeFromCart(index)}
                 variant="contained"
                 // color="secondary"
               >
@@ -114,7 +116,6 @@ function Cart() {
             onClick={() => orderFilms()}
             variant="contained"
             sx={{ mt: 3 }}
-            // color="secondary"
           >
             {t("button.order")}
           </Button>
