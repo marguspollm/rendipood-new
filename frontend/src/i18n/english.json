@@ -7,7 +7,8 @@
   },
   "cart": {
     "title": "Your cart",
-    "days": "Days"
+    "days": "Days",
+    "isEmpty": "Cart is empty!"
   },
   "rental": {
     "id": "ID",

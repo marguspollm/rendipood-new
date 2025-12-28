@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import type { Film } from "../models/Film";
 import { apiFetch } from "../services/api";
 import {
@@ -11,11 +11,21 @@ import {
   Typography,
 } from "@mui/material";
 import { toast, ToastContainer } from "react-toastify";
+import { useTranslation } from "react-i18next";
+import type { FilmWithDays } from "../models/FilmWithDays";
+import { CartCountContext } from "../context/CartCountContext";
 
 function Films() {
   const { t } = useTranslation();
   const [loading, setLoading] = useState<boolean>(true);
   const [films, setFilms] = useState<Film[]>([]);
+  const { count, setCount } = useContext(CartCountContext);
+  // const [form, setForm] = useState({
+  //   title: "",
+  //   type: "NEW" as FilmType,
+  //   description: "",
+  //   inStock: true,
+  // });
 
   const addToCart = (film: Film) => {
     const selectedFilms: FilmWithDays[] = JSON.parse(
@@ -27,11 +37,23 @@ function Films() {
       selectedFilms.push({ film: film, days: 1 });
       localStorage.setItem("cart", JSON.stringify(selectedFilms));
       toast.success(`${film.title} - ${t("toast.films.added")}`);
+      setCount(count + 1);
     } else {
-      existsFilm.days++;
       toast.warn(`${t("toast.films.alreadyAdded")}`);
     }
   };
+
+  // const handleAddFilmSubmit = () => {
+  //   apiFetch<Film[]>("/films", { method: "POST", body: form }).then((res) =>
+  //     setFilms(res)
+  //   );
+  // };
+  // const handleAddFormChange = (
+  //   e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  // ) => {
+  //   const { name, value } = e.target;
+  //   setForm((prev) => ({ ...prev, [name]: value }));
+  // };
 
   useEffect(() => {
     apiFetch<Film[]>("/films?inStock=true")
@@ -85,7 +107,5 @@ function Films() {
     </>
   );
 }
-import { useTranslation } from "react-i18next";
-import type { FilmWithDays } from "../models/FilmWithDays";
 
 export default Films;

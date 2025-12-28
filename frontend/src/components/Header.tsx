@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import AppBar from "@mui/material/AppBar";
 import {
+  Badge,
   Box,
   Button,
   FormControlLabel,
@@ -12,10 +13,13 @@ import {
 } from "@mui/material";
 import LanguageToggle from "./LanguageToggle";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { CartCountContext } from "../context/CartCountContext";
 
 const Header = () => {
   const { t } = useTranslation();
   const { mode, setMode } = useColorScheme();
+  const { count } = useContext(CartCountContext);
 
   const determineTheme = () => {
     return localStorage.getItem("mui-mode") || "light";
@@ -63,7 +67,9 @@ const Header = () => {
             variant="text"
             color="secondary"
           >
-            {t("header.cart")}
+            <Badge color="secondary" badgeContent={count}>
+              {t("header.cart")}
+            </Badge>
           </Button>
 
           <Button

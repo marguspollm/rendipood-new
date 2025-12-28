@@ -8,6 +8,7 @@ import ee.margus.rendipood.repository.FilmRepository;
 import ee.margus.rendipood.repository.RentalFilmRepository;
 import ee.margus.rendipood.repository.RentalRepository;
 import ee.margus.rendipood.util.FeeCalculator;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,7 @@ public class RentalService {
     @Autowired
     private RentalFilmRepository rentalFilmRepository;
 
+    @Transactional
     public double startRental(List<RentalFilmDTO> rentalFilms) {
         double sum = 0;
 

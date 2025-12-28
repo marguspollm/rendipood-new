@@ -26,8 +26,8 @@ function RentalTable({ rentals }: { rentals: Rental[] }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rentals.map((row: Rental) => (
-            <RentalRow row={row}></RentalRow>
+          {rentals.map((row: Rental, index: number) => (
+            <RentalRow row={row} key={index}></RentalRow>
           ))}
         </TableBody>
       </Table>

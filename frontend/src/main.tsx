@@ -6,14 +6,17 @@ import App from "./App.tsx";
 import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "@mui/material";
 import { theme } from "./themes/themes.ts";
+import { CartCountContextProvider } from "./context/CartCountContextProvider.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <ThemeProvider theme={theme}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </ThemeProvider>
+    <CartCountContextProvider>
+      <ThemeProvider theme={theme}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ThemeProvider>
+    </CartCountContextProvider>
   </StrictMode>
 );
 
