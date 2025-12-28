@@ -9,6 +9,7 @@ import { CartCountContext } from "../context/CartCountContext";
 function Cart() {
   const { t } = useTranslation();
   const { count, setCount } = useContext(CartCountContext);
+  const [submitClicked, setSubmitClicked] = useState(false);
   const [cartItems, setCartItems] = useState<FilmWithDays[]>(
     JSON.parse(localStorage.getItem("cart") || "[]")
   );
@@ -29,6 +30,7 @@ function Cart() {
   };
 
   const orderFilms = async () => {
+    setSubmitClicked(true);
     const payload = cartItems.map((item) => ({
       filmId: item.film.id,
       days: item.days,
@@ -51,7 +53,8 @@ function Cart() {
       })
       .catch(() => {
         toast.error(`${t("toast.error")}`);
-      });
+      })
+      .finally(() => setSubmitClicked(false));
   };
 
   return (
@@ -118,6 +121,7 @@ function Cart() {
 
         {cartItems.length > 0 && (
           <Button
+            loading={submitClicked}
             onClick={() => orderFilms()}
             variant="contained"
             sx={{ mt: 3 }}

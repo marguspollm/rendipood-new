@@ -8,6 +8,7 @@ import {
   MenuItem,
   Select,
   type SelectChangeEvent,
+  IconButton,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { apiFetch } from "../services/api";
@@ -19,14 +20,15 @@ function Returnal() {
   const { t } = useTranslation();
   const [days, setDays] = useState(1);
   const [rentedFilms, setRentedFilms] = useState<RentalFilm[]>([]);
-
   const [selectedFilm, setSelectedFilm] = useState("");
+  const [submitClicked, setSubmitClicked] = useState(false);
 
   const handleChange = (event: SelectChangeEvent) => {
     setSelectedFilm(event.target.value as string);
   };
 
   const handleReturn = () => {
+    setSubmitClicked(true);
     const payload = [
       {
         filmId: selectedFilm,
@@ -44,7 +46,8 @@ function Returnal() {
         setDays(1);
         getRentedFilms();
       })
-      .catch(() => toast.error(`${t("toast.error")}`));
+      .catch(() => toast.error(`${t("toast.error")}`))
+      .finally(() => setSubmitClicked(false));
   };
 
   const getRentedFilms = () => {
@@ -112,7 +115,13 @@ function Returnal() {
               "& input": { textAlign: "center", fontWeight: 600 },
             }}
           />
-          <Button variant="contained" onClick={handleReturn} sx={{ mt: 1 }}>
+
+          <Button
+            variant="contained"
+            onClick={handleReturn}
+            sx={{ mt: 1 }}
+            loading={submitClicked}
+          >
             {t("button.return")}
           </Button>
         </Box>
