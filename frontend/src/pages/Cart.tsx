@@ -8,7 +8,7 @@ import { CartCountContext } from "../context/CartCountContext";
 
 function Cart() {
   const { t } = useTranslation();
-  const { count, setCount } = useContext(CartCountContext);
+  const { decreaseCount, resetCount } = useContext(CartCountContext);
   const [submitClicked, setSubmitClicked] = useState(false);
   const [cartItems, setCartItems] = useState<FilmWithDays[]>(
     JSON.parse(localStorage.getItem("cart") || "[]")
@@ -20,7 +20,7 @@ function Cart() {
     localStorage.setItem("cart", JSON.stringify(updatedCart));
     setCartItems(updatedCart);
     toast.warn(`${t("toast.cart.removed")}`);
-    setCount(count - 1);
+    decreaseCount();
   };
 
   const setFilmDays = (days: number, index: number) => {
@@ -48,7 +48,7 @@ function Cart() {
       .then((res) => {
         toast.success(`${t("toast.cart.ordered")} - ${res}€`);
         setCartItems([]);
-        setCount(0);
+        resetCount();
         localStorage.removeItem("cart");
       })
       .catch(() => {

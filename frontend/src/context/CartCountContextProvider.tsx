@@ -19,8 +19,22 @@ export const CartCountContextProvider = ({
     return count;
   }
 
+  function increaseCount() {
+    setCount(count + 1);
+  }
+
+  function decreaseCount() {
+    setCount(count - 1);
+  }
+
+  function resetCount() {
+    setCount(0);
+  }
+
   return (
-    <CartCountContext.Provider value={{ count, setCount }}>
+    <CartCountContext.Provider
+      value={{ count, increaseCount, decreaseCount, resetCount }}
+    >
       {children}
     </CartCountContext.Provider>
   );

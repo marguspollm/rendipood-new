@@ -19,7 +19,7 @@ function Films() {
   const { t } = useTranslation();
   const [loading, setLoading] = useState<boolean>(true);
   const [films, setFilms] = useState<Film[]>([]);
-  const { count, setCount } = useContext(CartCountContext);
+  const { increaseCount } = useContext(CartCountContext);
   // const [form, setForm] = useState({
   //   title: "",
   //   type: "NEW" as FilmType,
@@ -37,7 +37,7 @@ function Films() {
       selectedFilms.push({ film: film, days: 1 });
       localStorage.setItem("cart", JSON.stringify(selectedFilms));
       toast.success(`${film.title} - ${t("toast.films.added")}`);
-      setCount(count + 1);
+      increaseCount();
     } else {
       toast.warn(`${t("toast.films.alreadyAdded")}`);
     }
