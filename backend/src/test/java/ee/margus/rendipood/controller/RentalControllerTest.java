@@ -24,6 +24,9 @@ class RentalControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @MockitoBean
     private RentalService rentalService;
 
@@ -36,7 +39,6 @@ class RentalControllerTest {
 
     @Test
     void startRental() throws Exception {
-        ObjectMapper objectMapper = new ObjectMapper();
         RentalFilmDTO rentalFilmDTO = new RentalFilmDTO();
         mockMvc.perform(post("/start-rental")
                         .content(objectMapper.writeValueAsString(List.of(rentalFilmDTO)))
@@ -47,7 +49,6 @@ class RentalControllerTest {
 
     @Test
     void endRental() throws Exception {
-        ObjectMapper objectMapper = new ObjectMapper();
         RentalFilmDTO rentalFilmDTO = new RentalFilmDTO();
         rentalFilmDTO.setDays(1);
         rentalFilmDTO.setFilmId(1L);

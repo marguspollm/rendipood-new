@@ -25,6 +25,9 @@ class FilmControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @MockitoBean
     private FilmService filmService;
 
@@ -37,7 +40,6 @@ class FilmControllerTest {
 
     @Test
     void addFilm() throws Exception {
-        ObjectMapper objectMapper = new ObjectMapper();
         Film film = new Film();
         mockMvc.perform(post("/films")
                         .content(objectMapper.writeValueAsString(film))//või Json.pretty()
@@ -48,7 +50,6 @@ class FilmControllerTest {
 
     @Test
     void addMultipleFilms() throws Exception {
-        ObjectMapper objectMapper = new ObjectMapper();
         Film film = new Film();
         mockMvc.perform(post("/films-multi")
                         .content(objectMapper.writeValueAsString(List.of(film)))//või Json.pretty()
